@@ -3,6 +3,8 @@ import reactLogo from './assets/react.svg'
 import './App.css'
 import { useEffect } from 'react'
 import wallet from '../lib/nearWallet'
+import { AssetForm } from '../components/assetForm'
+import { AssetList } from '../components/assetList'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -48,6 +50,8 @@ function App() {
           ) : isAuthenticated ? (
             <>
               <div>Hola {userId}</div>
+              <AssetForm />
+              <AssetList />
               <button onClick={handleLogout}>Logout</button>
             </>
           ) : (
