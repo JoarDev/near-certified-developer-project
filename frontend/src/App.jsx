@@ -1,9 +1,34 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import { useEffect } from 'react'
+import wallet from '../lib/nearWallet'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [loading, setLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [userId, setUserId] = useState("")
+
+  useEffect(() => {
+    startUp()
+  }, [])
+
+  const startUp = async () => {
+    const isSignedIn = await wallet.startUp()
+    setLoading(false)
+    setIsAuthenticated(isSignedIn)
+    if(isSignedIn) {
+      setUserId( wallet.getUserId() )
+    }
+  }
+
+  const handleLogin = () => {
+    wallet.signIn()
+  }
+
+  const handleLogout = () => {
+    wallet.signOut()
+  }
 
   return (
     <div className="App">
@@ -15,11 +40,22 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>Assets Dapp</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        {
+          loading ? (
+            <div>Loading ...</div>
+          ) : isAuthenticated ? (
+            <>
+              <div>Hola {userId}</div>
+              <button onClick={handleLogout}>Logout</button>
+            </>
+          ) : (
+            <button onClick={handleLogin}>
+              Login with wallet
+            </button>
+          )
+        }
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
