@@ -462,9 +462,6 @@ class BuyerInfo {
   address = "";
   name = "";
 }
-function betweenRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
 let Asset = (_dec = NearBindgen({}), _dec2 = view({}), _dec3 = view({}), _dec4 = view({}), _dec5 = call({}), _dec6 = call({}), _dec(_class = (_class2 = class Asset {
   assets = [];
   buyers = [];
@@ -491,6 +488,7 @@ let Asset = (_dec = NearBindgen({}), _dec2 = view({}), _dec3 = view({}), _dec4 =
   }
   // This method changes the state, for which it cost gas
   set_add_asset({
+    uuid,
     asset_name,
     asset_type,
     asset_ammount
@@ -498,10 +496,11 @@ let Asset = (_dec = NearBindgen({}), _dec2 = view({}), _dec3 = view({}), _dec4 =
     const player = predecessorAccountId();
     // near.log(`El usuario es ${player}`);
 
-    let newUUID = betweenRandomNumber(1000000000, 9999999999).toString();
-    log(`UUID = ` + newUUID);
+    // let newUUID = betweenRandomNumber(1000000000, 9999999999).toString()
+    // const newUUID = Math.random().toString()
+    // near.log(`UUID = `+newUUID);
     let info = new AssetInfo();
-    info.uuid = newUUID;
+    info.uuid = uuid;
     info.name = asset_name;
     info.type = asset_type;
     info.ammount = asset_ammount;

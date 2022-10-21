@@ -50,14 +50,15 @@ class Asset {
 
 
   @call({}) // This method changes the state, for which it cost gas
-  set_add_asset({ asset_name, asset_type, asset_ammount }: { asset_name: string, asset_type: string, asset_ammount: number }): AssetInfo {
+  set_add_asset({ uuid, asset_name, asset_type, asset_ammount }: { uuid: string, asset_name: string, asset_type: string, asset_ammount: number }): AssetInfo {
     const player = near.predecessorAccountId();
     // near.log(`El usuario es ${player}`);
 
-    let newUUID = betweenRandomNumber(1000000000, 9999999999).toString()
-    near.log(`UUID = `+newUUID);
+    // let newUUID = betweenRandomNumber(1000000000, 9999999999).toString()
+    // const newUUID = Math.random().toString()
+    // near.log(`UUID = `+newUUID);
     let info = new AssetInfo()
-    info.uuid = newUUID
+    info.uuid = uuid
     info.name = asset_name
     info.type = asset_type
     info.ammount = asset_ammount
