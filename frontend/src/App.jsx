@@ -12,6 +12,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userId, setUserId] = useState("")
   const [txResult, setTxResult] = useState(null)
+  const [assetList, setAssetList] = useState([])
 
   useEffect(() => {
     startUp()
@@ -23,7 +24,6 @@ function App() {
       const params = new URLSearchParams(window.location.href.match(/\?.*/)[0])
       txHash = params.get('transactionHashes')
     } catch (error) {
-      console.error(error)
     }
     if (!loading) {
       if (txHash) {
@@ -37,6 +37,7 @@ function App() {
       assetContract.getAssets()
       .then((body) => {
         console.log("body",body)
+        setAssetList(body)
       })
       .catch((error) => {
         console.log("error",error)
@@ -83,9 +84,10 @@ function App() {
             <div>Loading ...</div>
           ) : isAuthenticated ? (
             <>
-              <div>Hola <code>{userId}</code> crea tu activo</div>
+              <div>Hola <code>{userId}</code> crea tu asdasd</div>
               <AssetForm />
-              <AssetList />
+              <AssetList assetList={assetList} userId={userId}/>
+              <div>owo</div>
               <button onClick={handleLogout}>Logout</button>
             </>
           ) : (

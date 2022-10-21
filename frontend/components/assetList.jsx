@@ -1,20 +1,23 @@
 
-import { useState, useEffect } from 'react'
+export const AssetList = ({ assetList }) => {
 
-export const AssetList = () => {
-    const [assetList, setAssetList] = useState([])
-
-    useEffect(() => {
-        //fetch asset list
-    }, [])
-
-    const handleParticipate = (values) => {
-        
+    const handleParticipate = () =>{
+        console.log("ahnd")
     }
 
     return (
         <div>
-            assetList
+            {
+                assetList.map( () => (
+                    <div>
+                        <div>{assetList.name}</div>
+                        <div>{assetList.ammount}</div>
+                        <div>{assetList.owner_id}</div>
+                        <div>{assetList.type}</div>
+                        <button onClick={handleParticipate}>Comprar activo</button>
+                    </div>
+                ))
+            }
         </div>
     )
 }
