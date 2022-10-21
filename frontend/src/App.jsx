@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import wallet from '../lib/nearWallet'
 import { AssetForm } from '../components/assetForm'
 import { AssetList } from '../components/assetList'
+import { assetContract } from '../lib/contract'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -17,10 +18,15 @@ function App() {
   }, [])
 
   useEffect(() => {
+    let txHash
     try {
       const params = new URLSearchParams(window.location.href.match(/\?.*/)[0])
-      const txHash = params.get('transactionHashes')
-      if (txHash && !loading) {
+      txHash = params.get('transactionHashes')
+    } catch (error) {
+      console.error(error)
+    }
+    if (!loading) {
+      if (txHash) {
         console.log("txHash", txHash)
         wallet.getTransactionResult(txHash)
         .then((result) => {
@@ -28,8 +34,13 @@ function App() {
           setTxResult({result: result, txHash: txHash})
         })
       }
-    } catch (error) {
-      console.error(error)
+      assetContract.getAssets()
+      .then((body) => {
+        console.log("body",body)
+      })
+      .catch((error) => {
+        console.log("error",error)
+      })
     }
   }, [loading])
 

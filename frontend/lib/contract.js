@@ -1,6 +1,6 @@
 import nearWallet from "./nearWallet";
 
-const ASSET_CONTRACT_ID = "dev-1666286140101-22068809277940"
+const ASSET_CONTRACT_ID = "dev-1666367940051-78097078193014"
 
 class AssetContract {
     contractId;
@@ -11,8 +11,8 @@ class AssetContract {
       this.wallet = walletToUse;   
     }
   
-    getGreeting = async () => {
-      return await this.wallet.viewMethod({ contractId: this.contractId, method: 'get_greeting' });
+    getAssets = async () => {
+      return await this.wallet.viewMethod({ contractId: this.contractId, method: 'get_assets' });
     }
   
     setGreeting = async (greeting) => {
