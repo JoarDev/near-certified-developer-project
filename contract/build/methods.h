@@ -1,0 +1,5 @@
+DEFINE_NEAR_METHOD(get_assets)
+DEFINE_NEAR_METHOD(get_buyers)
+DEFINE_NEAR_METHOD(get_buyers_asset)
+DEFINE_NEAR_METHOD(set_add_asset)
+DEFINE_NEAR_METHOD(set_buy_asset)
