@@ -82,7 +82,7 @@ function App() {
             <>
               <div>Hola <code>{userId}</code> crea tu activo</div>
               <AssetForm />
-              <AssetList assetList={assetList}/>
+              <AssetList assetList={assetList} userId={userId}/>
               <button onClick={handleLogout}>Logout</button>
             </>
           ) : (

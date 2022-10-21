@@ -14,7 +14,7 @@ export const AssetForm = () => {
     }
 
     return (
-        <form className="assetForm" onSubmit={handleSubmit(onSubmit)}>
+        <form className="assetForm" onSubmit={handleSubmit(onSubmit)} style={{display: "flex"}}>
             <label>
                 Nombre del activo:{" "}
                 <input type="text" placeholder="Asset name" {...register("assetName")} />
