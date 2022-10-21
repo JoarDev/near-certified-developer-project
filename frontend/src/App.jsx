@@ -10,10 +10,28 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userId, setUserId] = useState("")
+  const [txResult, setTxResult] = useState(null)
 
   useEffect(() => {
     startUp()
   }, [])
+
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.href.match(/\?.*/)[0])
+      const txHash = params.get('transactionHashes')
+      if (txHash && !loading) {
+        console.log("txHash", txHash)
+        wallet.getTransactionResult(txHash)
+        .then((result) => {
+          console.log("result",result)
+          setTxResult({result: result, txHash: txHash})
+        })
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }, [loading])
 
   const startUp = async () => {
     const isSignedIn = await wallet.startUp()
@@ -38,10 +56,15 @@ function App() {
         <a href="https://vitejs.dev" target="_blank">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
         </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
       </div>
+      {
+        txResult ? (
+          <div className='transactionResult'>
+            <h4>Transaction Result:{" "}{txResult.result.uuid ? "Successful" : "Failed"}</h4>
+            <a target="_blank" href={`https://explorer.testnet.near.org/transactions/${txResult.txHash}`}>View transaction on Explorer</a>
+          </div>
+        ) : null
+      }
       <h1>Assets Dapp</h1>
       <div className="card">
         {
@@ -49,7 +72,7 @@ function App() {
             <div>Loading ...</div>
           ) : isAuthenticated ? (
             <>
-              <div>Hola {userId}</div>
+              <div>Hola <code>{userId}</code> crea tu activo</div>
               <AssetForm />
               <AssetList />
               <button onClick={handleLogout}>Logout</button>
@@ -60,13 +83,7 @@ function App() {
             </button>
           )
         }
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   )
 }
