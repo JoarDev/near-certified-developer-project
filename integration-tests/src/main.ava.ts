@@ -30,15 +30,28 @@ test.afterEach.always(async (t) => {
   });
 });
 
-test('returns the default greeting', async (t) => {
+test('returns the list of assets', async (t) => {
   const { contract } = t.context.accounts;
-  const message: string = await contract.view('get_greeting', {});
-  t.is(message, 'Hello');
+  const message: any [] = await contract.view('get_assets', {});
+  t.true(Array.isArray(message));
+});
+test('returns the list of buyers', async (t) => {
+  const { contract } = t.context.accounts;
+  const message: any [] = await contract.view('get_buyers', {});
+  t.true(Array.isArray(message));
 });
 
-test('changes the message', async (t) => {
+
+test('add a new asset', async (t) => {
   const { root, contract } = t.context.accounts;
-  await root.call(contract, 'set_greeting', { message: 'Howdy' });
-  const message: string = await contract.view('get_greeting', {});
-  t.is(message, 'Howdy');
+  await root.call(contract, 'set_add_asset', { "asset_name": "Ivan Asset3","asset_type":"Car", "asset_ammount": 3000 });
+  const message: any [] = await contract.view('get_assets', {});
+  t.true(Array.isArray(message));
+});
+test('buy an asset', async (t) => {
+  const { root, contract } = t.context.accounts;
+  const assets: any [] = await contract.view('get_assets', {});
+  await root.call(contract, 'set_buy_asset', { "asset_uuid": "3527515450", "buyer_name": "Comprador2 Asset1" });
+  const message: any [] = await contract.view('get_buyers_asset', { "uuid": "3527515450" });
+  t.true(Array.isArray(message));
 });
